@@ -16,19 +16,19 @@ import { Product } from './Product';
 @Entity()
 export class Cart extends BaseEntity {
   @PrimaryGeneratedColumn()
-  cartId!: number;
+  cart_id!: number;
 
   @Column()
-  userId!: number;
+  user_id!: number;
 
   @Column()
-  productId!: number;
+  product_id!: number;
 
   @ManyToOne((type) => User, (user) => user.orders, { eager: true })
-  @JoinColumn()
+  @JoinColumn({ name: 'user_id' })
   user!: User;
 
   @ManyToOne((type) => Product, (product) => product.orders, { eager: true })
-  @JoinColumn()
+  @JoinColumn({ name: 'product_id' })
   product!: Product;
 }

@@ -40,9 +40,9 @@ export class User extends BaseEntity {
   @CreateDateColumn()
   createdAt!: Date;
 
-  @OneToMany((type) => Cart, (cart) => cart.cartId)
+  @OneToMany((type) => Cart, (cart) => cart.cart_id)
   orders!: Cart[];
 
-  @OneToMany((type) => PurchasedOrder, (order) => order.orderId)
+  @OneToMany((type) => PurchasedOrder, (order) => order.order_id)
   purchaseOrders!: PurchasedOrder[];
 }

@@ -17,11 +17,18 @@ import { PurchasedOrder } from './PurchasedOrder';
 @Entity()
 export class PurchasedItem extends BaseEntity {
   @PrimaryGeneratedColumn()
-  puchaseId!: number;
+  puchase_id!: number;
 
   @Column()
-  purchaseOrderId!: number;
+  purchase_order_id!: number;
 
-  @ManyToOne((type) => PurchasedOrder, (purchase) => purchase.orderId)
+  @Column()
+  item_id!: number;
+
+  @Column()
+  count!: number;
+
+  @ManyToOne((type) => PurchasedOrder, (purchase) => purchase.order_id)
+  @JoinColumn({ name: 'purchase_order_id' })
   purchase!: PurchasedOrder;
 }

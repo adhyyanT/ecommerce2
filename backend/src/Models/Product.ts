@@ -30,6 +30,6 @@ export class Product extends BaseEntity {
   @Column()
   price!: number;
 
-  @OneToMany((type) => Cart, (cart) => cart.cartId)
+  @OneToMany((type) => Cart, (cart) => cart.cart_id)
   orders!: Cart[];
 }
