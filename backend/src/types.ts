@@ -25,3 +25,12 @@ export type StripeSessionType = {
   session_id: string;
   success?: string;
 };
+
+export type PaginationType = {
+  page?: number;
+  size?: number;
+};
+
+export type SearchBody = {
+  search: string;
+};

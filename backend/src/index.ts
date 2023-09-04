@@ -9,6 +9,7 @@ import { errorHandler } from './middleware/errorHandler';
 import createHttpError from 'http-errors';
 import cartRoutes from './Routes/cartRoutes';
 import orderRoute from './Routes/orderRoutes';
+import productRoute from './Routes/productRoutes';
 dotenv.config();
 
 const app = express();
@@ -22,7 +23,7 @@ app.use(passport.authenticate('jwt', { session: false }));
 app.use('/profile', profileRoutes);
 app.use('/cart', cartRoutes);
 app.use('/order', orderRoute);
-// app.use('/products',);
+app.use('/products', productRoute);
 
 app.use((req, res, next) => {
   next(createHttpError(404, 'Page not found'));
