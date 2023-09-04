@@ -5,6 +5,7 @@ import Stripe from 'stripe';
 import dotenv from 'dotenv';
 import { PurchasedOrder } from '../Models/PurchasedOrder';
 import { PurchasedItem } from '../Models/PurchasedItem';
+import { AddtoCartParams, RemoveFromCartParams } from '../types';
 dotenv.config();
 
 const stripe = new Stripe(process.env.stripe_key!, {
@@ -15,7 +16,7 @@ const cartRepo = AppDataSource.getRepository(Cart);
 const poRepo = AppDataSource.getRepository(PurchasedOrder);
 const piRepo = AppDataSource.getRepository(PurchasedItem);
 
-const getCartHelper = async (userId: number) => {
+export const getCartHelper = async (userId: number) => {
   const res = await cartRepo.query(
     `
         SELECT c1.product_id, c1.count,p.title,p.desc,p.price,p.image
@@ -115,43 +116,10 @@ export const checkOut: RequestHandler = async (req, res, next) => {
     const session = await stripe.checkout.sessions.create({
       line_items,
       mode: 'payment',
-      success_url: `${process.env.client}/cart?success=true`,
+      success_url: `${process.env.backend}/order/purchase_order?success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.client}/cart?canceled=true`,
     });
-
-    //create purchase order
-    const po = new PurchasedOrder();
-    po.user_id = userId;
-    let t = await poRepo.save(po);
-
-    // add purchase products
-    userCart.map(async (product: any) => {
-      const pi = new PurchasedItem();
-      pi.purchase_order_id = t.order_id;
-      pi.item_id = product.product_id;
-      pi.count = product.count;
-      await piRepo.save(pi);
-    });
-
-    await cartRepo
-      .createQueryBuilder()
-      .delete()
-      .where('user_id = :id', { id: userId })
-      .execute();
     return res.status(200).json({ url: session.url });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const pastOrders: RequestHandler = async (req, res, next) => {
-  try {
-    const userId = req.user!.id;
-    const allOrders = await poRepo.find({
-      where: {
-        user_id: userId,
-      },
-    });
   } catch (error) {
     next(error);
   }

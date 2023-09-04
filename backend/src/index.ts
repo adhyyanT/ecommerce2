@@ -8,6 +8,7 @@ import profileRoutes from './Routes/profileRoutes';
 import { errorHandler } from './middleware/errorHandler';
 import createHttpError from 'http-errors';
 import cartRoutes from './Routes/cartRoutes';
+import orderRoute from './Routes/orderRoutes';
 dotenv.config();
 
 const app = express();
@@ -20,6 +21,7 @@ app.use('/user', userRoutes);
 app.use(passport.authenticate('jwt', { session: false }));
 app.use('/profile', profileRoutes);
 app.use('/cart', cartRoutes);
+app.use('/order', orderRoute);
 // app.use('/products',);
 
 app.use((req, res, next) => {

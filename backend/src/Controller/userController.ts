@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import { AppDataSource } from '../config/connectDB';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { LoginBody, RegisterBody } from '../types';
 dotenv.config();
 
 const userRepo = AppDataSource.getRepository(User);

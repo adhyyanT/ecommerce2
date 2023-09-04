@@ -9,6 +9,7 @@ import {
   ManyToMany,
   ManyToOne,
   JoinColumn,
+  Generated,
 } from 'typeorm';
 import { User } from './User';
 import { Product } from './Product';
@@ -21,6 +22,9 @@ export class PurchasedOrder extends BaseEntity {
 
   @Column()
   user_id!: number;
+
+  @CreateDateColumn()
+  createdAt!: Date;
 
   @ManyToOne((type) => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })

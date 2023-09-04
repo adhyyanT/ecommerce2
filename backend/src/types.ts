@@ -1,19 +1,27 @@
-type RegisterBody = {
+export type RegisterBody = {
   username: string;
   name: string;
   email: string;
   password: string;
 };
 
-type LoginBody = {
+export type LoginBody = {
   username: string;
   password: string;
 };
 
-type AddtoCartParams = {
+export type AddtoCartParams = {
   productId: number;
 };
 
-type RemoveFromCartParams = {
+export type RemoveFromCartParams = {
   cartId: number;
+};
+export type OrderDetailParams = {
+  orderId: number;
+};
+
+export type StripeSessionType = {
+  session_id: string;
+  success?: string;
 };
