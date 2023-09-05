@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const login = async (email: string, password: string) => {
-  console.log(password);
   try {
     let data = JSON.stringify({
       password: password,
