@@ -6,7 +6,7 @@ export type RegisterBody = {
 };
 
 export type LoginBody = {
-  username: string;
+  email: string;
   password: string;
 };
 

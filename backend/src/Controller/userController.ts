@@ -5,6 +5,7 @@ import { AppDataSource } from '../config/connectDB';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { LoginBody, RegisterBody } from '../types';
+import createHttpError from 'http-errors';
 dotenv.config();
 
 const userRepo = AppDataSource.getRepository(User);
@@ -14,10 +15,11 @@ export const register: RequestHandler<
   unknown,
   RegisterBody,
   unknown
-> = async (req, res) => {
+> = async (req, res, next) => {
   try {
     const { name, username, email, password } = req.body;
-    if (!name || !username || !email || !password) return;
+    if (!name || !username || !email || !password)
+      return next(createHttpError(400, 'All fields are mandatory'));
 
     const already = await userRepo.findOne({
       where: [{ username }, { email }],
@@ -41,7 +43,7 @@ export const register: RequestHandler<
       return res.status(200).json({ user, token });
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
@@ -50,18 +52,19 @@ export const login: RequestHandler<
   unknown,
   LoginBody,
   unknown
-> = async (req, res) => {
+> = async (req, res, next) => {
   try {
-    const { username, password } = req.body;
-    if (!username || !password) return;
+    const { email, password } = req.body;
+    if (!email || !password)
+      return next(createHttpError(400, 'All fields are mandatory'));
     const user = await userRepo.findOne({
       where: {
-        username,
+        email,
       },
     });
-    if (!user) return;
+    if (!user) return next(createHttpError(400, 'Account does not exist.'));
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return;
+    if (!isMatch) return next(createHttpError(400, 'Password Incorrect'));
     req.login(user, { session: false }, (err) => {
       if (err) return;
       const token = jwt.sign({ user }, process.env.secret!, {
@@ -70,17 +73,17 @@ export const login: RequestHandler<
       return res.status(200).json({ user, token });
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
-export const logout: RequestHandler = async (req, res) => {
+export const logout: RequestHandler = async (req, res, next) => {
   try {
     req.logout((err) => {
       if (err) return;
     });
     return res.sendStatus(200);
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
