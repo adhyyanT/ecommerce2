@@ -34,3 +34,7 @@ export type PaginationType = {
 export type SearchBody = {
   search: string;
 };
+
+export type ProductIdParams = {
+  id: number;
+};
