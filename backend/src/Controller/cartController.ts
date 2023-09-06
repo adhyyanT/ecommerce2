@@ -116,9 +116,10 @@ export const checkOut: RequestHandler = async (req, res, next) => {
     const session = await stripe.checkout.sessions.create({
       line_items,
       mode: 'payment',
-      success_url: `${process.env.backend}/order/purchase_order?success=true&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.client}/cart?canceled=true`,
+      success_url: `${process.env.client}/order/done?success=true&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.client}/order/done?canceled=true`,
     });
+    const _ = await getCartHelper(userId);
     return res.status(200).json({ url: session.url });
   } catch (error) {
     next(error);

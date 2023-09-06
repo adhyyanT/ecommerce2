@@ -1,35 +1,30 @@
 import axios from 'axios';
 
-export const getProducts = async (
-  page: number,
-  size: number,
-  search: string
-) => {
+export const putItemInCart = async (id: number) => {
   try {
-    if (!search) search = '';
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:5000/products/all_products?page=${page}&size=${size}&search=${search}`,
+      url: 'http://localhost:5000/cart/add/' + id,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     };
 
-    const res = await axios.request(config);
-    return res.data;
+    await axios.request(config);
+    return { ok: true };
   } catch (error) {
     console.log(error);
-    return { total: 0, product: [] };
+    return { ok: false };
   }
 };
 
-export const getProduct = async (id: number) => {
+export const getCart = async () => {
   try {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/products/product/' + id,
+      url: 'http://localhost:5000/cart/getcart',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -42,45 +37,40 @@ export const getProduct = async (id: number) => {
     return null;
   }
 };
-
-export const search = async (s: string) => {
+export const removeFromCart = async (id: number) => {
   try {
     let config = {
-      method: 'post',
+      method: 'delete',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/products/search',
+      url: 'http://localhost:5000/cart/remove/' + id,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json',
-      },
-      data: {
-        search: s,
       },
     };
 
-    const res = await axios.request(config);
-    return res.data;
+    await axios.request(config);
+    return { ok: true };
   } catch (error) {
     console.log(error);
-    return [];
+    return { ok: false };
   }
 };
 
-export const getProductDetails = async (id: number) => {
+export const checkout = async () => {
   try {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/products/product/' + id,
+      url: 'http://localhost:5000/cart/checkout',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     };
 
     const res = await axios.request(config);
-    return res.data;
+    return res.data.url;
   } catch (error) {
     console.log(error);
-    return { err: 'Not found' };
+    return '';
   }
 };

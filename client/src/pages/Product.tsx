@@ -1,4 +1,5 @@
-import { getProductDetails, putItemInCart } from '@/api/productApi';
+import { getProductDetails } from '@/api/productApi';
+import { putItemInCart } from '@/api/cartApi';
 import { Icons } from '@/components/icons';
 import { Nav } from '@/components/main-nav';
 import { Button } from '@/components/ui/button';

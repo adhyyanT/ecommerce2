@@ -1,4 +1,4 @@
-import { getCart, removeFromCart } from '@/api/productApi';
+import { checkout, getCart, removeFromCart } from '@/api/cartApi';
 import { Nav } from '@/components/main-nav';
 import { useEffect, useState } from 'react';
 import { CartType } from 'types';
@@ -19,7 +19,14 @@ const Cart = () => {
   const [countDel, setCountDel] = useState(0);
   const [total, setTotal] = useState(0);
   const [cart, setCart] = useState<CartType[]>();
-
+  const [loading, setLoading] = useState(false);
+  const handleCheckout = async () => {
+    setLoading(true);
+    const res = await checkout();
+    if (res === '') return;
+    window.location.href = res;
+    setLoading(false);
+  };
   const handleDelete = async (id: number) => {
     const res = await removeFromCart(id);
     if (res.ok) setCountDel(countDel + 1);
@@ -93,7 +100,8 @@ const Cart = () => {
             </TableBody>
           </Table>
           <div className='flex place-content-end p-8'>
-            <Button>
+            <Button onClick={handleCheckout} disabled={loading}>
+              {loading && <Icons.spinner />}
               Checkout <Icons.chevronRight />
             </Button>
           </div>

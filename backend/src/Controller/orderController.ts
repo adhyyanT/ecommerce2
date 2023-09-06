@@ -26,15 +26,12 @@ export const createPurchaseOrder: RequestHandler<
     const session = await stripe.checkout.sessions.retrieve(
       req.query.session_id!
     );
-    // console.log(session);
     if (!session || session.status !== 'complete' || userCart.length === 0)
       return res.sendStatus(400);
-
     //create purchase order
     const po = new PurchasedOrder();
     po.user_id = userId;
     let t = await poRepo.save(po);
-
     // add purchase products
     userCart.map(async (product: any) => {
       const pi = new PurchasedItem();
@@ -43,7 +40,6 @@ export const createPurchaseOrder: RequestHandler<
       pi.count = product.count;
       await piRepo.save(pi);
     });
-
     await cartRepo
       .createQueryBuilder()
       .delete()
