@@ -20,3 +20,12 @@ export type SingleProductType = {
   desc: string;
 };
 export type MainNavItem = NavItem;
+
+export type CartType = {
+  product_id: number;
+  count: number;
+  title: number;
+  desc: number;
+  price: number;
+  image: number;
+};

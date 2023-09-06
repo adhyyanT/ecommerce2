@@ -40,7 +40,6 @@ const Home = () => {
   useEffect(() => {
     const getProd = async () => {
       const res = await getProducts(page, 12, search);
-      // console.log(res);
       setTotal(Math.ceil(res.total / 12));
       setProducts(res.product);
       setPage(0);
@@ -89,7 +88,7 @@ const Home = () => {
             variant={'ghost'}
             size={'sm'}
             disabled={page <= 0}
-            onClick={(e) => getProductsPaginated(false)}
+            onClick={() => getProductsPaginated(false)}
           >
             <Icons.MoveLeft />
           </Button>
@@ -99,7 +98,7 @@ const Home = () => {
           <Button
             variant={'ghost'}
             size={'sm'}
-            onClick={(e) => getProductsPaginated(true)}
+            onClick={() => getProductsPaginated(true)}
             disabled={page + 1 >= total}
           >
             <Icons.MoveRight />

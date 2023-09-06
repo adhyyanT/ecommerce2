@@ -1,42 +1,73 @@
 import { Link } from 'react-router-dom';
 import { Icons } from './icons';
 
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuLabel,
+//   DropdownMenuSeparator,
+//   DropdownMenuTrigger,
+// } from '@/components/ui/dropdown-menu';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { Button } from './ui/button';
+import { Box, ShoppingCart } from 'lucide-react';
 
 const Nav = () => {
   return (
-    <div className=' text-foreground border-b-2  h-16 pt-5 overflow-x-hidden'>
+    <div className=' text-foreground border-b-2  h-16 pt-5 overflow-x-hidden '>
       <div className='flex justify-between w-screen'>
         <a href='/home' className='gap-6 flex pl-[4vw]'>
           <Icons.logo />
           <span className='  font-bold '>Ecommerce</span>
         </a>
-        <div className='flex place-items-end pr-[4vw]'>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Icons.user />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className='dark bg-background'>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link to='/cart'>Cart</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link to='/orders'>My Orders</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link to='/profile'>Profile</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <div className='flex place-items-end pr-[4vw] dark bg-background '>
+          <Sheet>
+            <SheetTrigger asChild>
+              <button>
+                <Icons.user />
+              </button>
+            </SheetTrigger>
+            <SheetContent className='dark bg-background text-foreground '>
+              <SheetHeader>
+                <SheetTitle className='border-b-4'>Your Account</SheetTitle>
+                <SheetDescription>
+                  You can view your cart and past orders from here.
+                </SheetDescription>
+              </SheetHeader>
+              <div className='grid gap-4 py-4'>
+                <div className='grid grid-cols-1 items-center gap-4 mt-12 border-b-4'>
+                  <Link to={'/cart'}>
+                    <Button size={'lg'} variant={'ghost'} className='w-full'>
+                      <ShoppingCart size={40} className='pr-3' />
+                      Your cart
+                    </Button>
+                  </Link>
+                </div>
+                <div className='grid grid-cols-1 items-center gap-4  border-b-4'>
+                  <Link to={'/order'}>
+                    <Button size={'lg'} variant={'ghost'} className='w-full'>
+                      <Box size={40} className='pr-3' /> Your Orders
+                    </Button>
+                  </Link>
+                </div>
+                <div className='grid grid-cols-1 items-center gap-4'>
+                  <Link to={'/order'}>
+                    <Button size={'lg'} variant={'ghost'} className='w-full'>
+                      <Icons.user size={40} className='pr-3' /> Your Profile
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </div>
