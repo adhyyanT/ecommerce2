@@ -11,4 +11,12 @@ export type Product = {
   p_price: number;
   p_desc: string;
 };
+
+export type SingleProductType = {
+  id: number;
+  title: string;
+  image: string;
+  price: number;
+  desc: string;
+};
 export type MainNavItem = NavItem;

@@ -37,5 +37,5 @@ export type SearchBody = {
 };
 
 export type ProductIdParams = {
-  id: number;
+  productId: number;
 };

@@ -66,7 +66,7 @@ export const getOneProduct: RequestHandler<
   unknown
 > = async (req, res, next) => {
   try {
-    const productId = req.params.id;
+    const productId = req.params.productId;
     const product = await productRepo.findOneBy({ id: productId });
     return res.status(200).json(product);
   } catch (error) {
