@@ -19,7 +19,7 @@ const Nav = () => {
       <div className='flex place-items-end pr-[4vw]'>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Icons.logo />
+            <Icons.user />
           </DropdownMenuTrigger>
           <DropdownMenuContent className='dark bg-background'>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>

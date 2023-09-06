@@ -4,7 +4,6 @@ import ProductCard from '@/components/product-card';
 import './Home.css';
 import { Input } from '@/components/ui/input';
 import { useEffect, useState } from 'react';
-
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
@@ -12,7 +11,7 @@ const Home = () => {
 
   useEffect(() => {
     const getProd = async () => {
-      const res = await getProducts(page, 10);
+      const res = await getProducts(page, 12);
       // console.log(res);
       setTotal(res.count);
       setProducts(res.product);
@@ -27,7 +26,7 @@ const Home = () => {
       <div className=' contianer w-full flex place-content-center mt-[15vh] mb-[15vh] text-foreground'>
         <Input
           type='text'
-          className='w-[75vw] md:w-[50vw]'
+          className='w-[75vw] md:w-[50vw] text-center h-10'
           placeholder='Search Products'
         />
       </div>
@@ -35,7 +34,9 @@ const Home = () => {
         <div className='grid grid-cols-1 place-content-center gap-14 mb-[15vh] md:grid-cols-4'>
           {/* <ProductCard /> */}
           {products &&
-            products.map((product, idx) => <ProductCard key={idx} />)}
+            products.map((product, idx) => (
+              <ProductCard key={idx} product={product} />
+            ))}
         </div>
       </div>
     </>
