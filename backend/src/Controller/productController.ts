@@ -13,12 +13,22 @@ export const getAllProducts: RequestHandler<
   PaginationType
 > = async (req, res, next) => {
   try {
-    let { page, size } = req.query;
+    let { page, size, search } = req.query;
     if (!page) page = 0;
     if (!size) size = 10;
-    const total = await productRepo.createQueryBuilder('p').getCount();
+    if (!search) search = '';
+    console.log(search);
+    const total = await productRepo
+      .createQueryBuilder('p')
+      .where('p.title ilike :search', { search: `%${search}%` })
+      .orWhere('p.desc ilike :search1', { search1: `%${search}%` })
+      .orWhere('p.category ilike :search2', { search2: `%${search}%` })
+      .getCount();
     const product = await productRepo
       .createQueryBuilder('p')
+      .where('p.title ilike :search', { search: `%${search}%` })
+      .orWhere('p.desc ilike :search1', { search1: `%${search}%` })
+      .orWhere('p.category ilike :search2', { search2: `%${search}%` })
       .offset(page * size)
       .limit(size)
       .execute();

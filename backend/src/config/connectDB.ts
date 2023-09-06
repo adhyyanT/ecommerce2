@@ -16,7 +16,7 @@ const AppDataSource = new DataSource({
   database: process.env.DATABASE,
   username: process.env.USER,
   synchronize: true,
-  logging: true,
+  // logging: true,
   entities: [User, Product, Cart, PurchasedItem, PurchasedOrder],
 });
 

@@ -29,6 +29,7 @@ export type StripeSessionType = {
 export type PaginationType = {
   page?: number;
   size?: number;
+  search?: string;
 };
 
 export type SearchBody = {

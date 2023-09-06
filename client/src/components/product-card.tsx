@@ -25,10 +25,10 @@ const ProductCard = ({ product }: ProductProps) => {
         {/* <CardDescription className='pt-2'>Hey</CardDescription> */}
       </CardHeader>
       <CardContent className='flex flex-col text-center overflow-hidden h-20 font-semibold'>
-        <p>{product.p_title}</p>
+        {product.p_title}
       </CardContent>
       <CardDescription className='flex text-center h-10 flex-col items-center '>
-        <p>${product.p_price}</p>
+        ${product.p_price}
       </CardDescription>
     </Card>
   );
