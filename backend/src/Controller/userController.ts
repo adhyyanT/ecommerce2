@@ -25,7 +25,13 @@ export const register: RequestHandler<
       where: [{ username }, { email }],
     });
 
-    if (already) return;
+    if (already)
+      next(
+        createHttpError(
+          400,
+          'A user already exists with the same Email Or Username'
+        )
+      );
     const user = new User();
     user.email = email;
     user.name = name;

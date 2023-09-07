@@ -85,7 +85,7 @@ const Cart = () => {
                       variant={'ghost'}
                       onClick={() => handleDelete(product.product_id)}
                     >
-                      <Trash2 />
+                      <Trash2 color='red' />
                     </Button>
                   </TableCell>
 

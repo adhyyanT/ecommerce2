@@ -46,7 +46,7 @@ export function UserAuthRegisterForm({
     if (!signInResult?.ok) {
       return toast({
         title: 'Something went wrong.',
-        description: 'Your sign in request failed. Please try again.',
+        description: `${signInResult.errorMsg}`,
         variant: 'destructive',
       });
     }

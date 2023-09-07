@@ -3,6 +3,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import { UserAuthRegisterForm } from '@/components/user-auth-register-form';
 // import { UserAuthForm } from '@/components/user-auth-form';
+import hero from '@/assets/images/hero.png';
 
 export const metadata = {
   title: 'Create an account',
@@ -21,7 +22,9 @@ export default function Register() {
       >
         Login
       </a>
-      <div className=' h-full bg-muted lg:block'>add img</div>
+      <div className='overflow-hidden hidden h-full bg-muted md:block'>
+        <img className='' src={hero} alt='hero' />
+      </div>
       <div className='lg:p-8'>
         <div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]'>
           <div className='flex flex-col space-y-2 text-center'>

@@ -19,7 +19,6 @@ const Home = () => {
     setSearch(e.target.value);
     const id = setTimeout(async () => {
       const res = await getProducts(0, 12, e.target.value);
-      console.log(res.errorCode);
       if (res.errorCode === 401) navigate('/');
       setPage(0);
       setProducts(res.product);
@@ -59,7 +58,7 @@ const Home = () => {
   // if (!localStorage.getItem('token')) return navigate('/');
   return (
     <>
-      <div className='h-full bg-background text-foreground'>
+      <div className='min-h-screen bg-background text-foreground'>
         <Nav />
 
         {/* <div className=' text-foreground border-b-2  h-16 pt-5 overflow-x-hidden'>
@@ -74,20 +73,22 @@ const Home = () => {
           />
         </div>
         <div className='flex flex-grow justify-center '>
-          <div className='grid grid-cols-1 place-content-center gap-14 mb-[15vh] md:grid-cols-4'>
-            {/* <ProductCard /> */}
-            {products.length !== 0 ? (
-              products.map((product: Product) => (
+          {products.length === 0 ? (
+            <div className='flex flex-col h-[33vh] font-semibold text-xl gap-6 text-center'>
+              <div className='flex place-content-center '>
+                <Icons.warning color='orange' size={40} />
+              </div>
+              We currently do not offer what you are looking for...
+            </div>
+          ) : (
+            <div className='grid grid-cols-1 place-content-center gap-14 mb-[15vh] md:grid-cols-4'>
+              {products.map((product: Product) => (
                 <Link key={product.p_id} to={`/product/${product.p_id}`}>
                   <ProductCard key={product.p_id} product={product} />
                 </Link>
-              ))
-            ) : (
-              <>
-                <p className='text-foreground h-56 w-auto'>EMPTY</p>
-              </>
-            )}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
         <div className='text-foreground flex place-content-center bg-background gap-6 pb-10'>
           <Button

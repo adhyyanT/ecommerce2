@@ -52,7 +52,12 @@ export const register = async (
     localStorage.setItem('token', res.data.token);
     return { ok: true, data: res.data, error: null };
   } catch (error) {
-    console.log(error);
+    if (axios.isAxiosError(error)) {
+      console.error(error.response?.status);
+      return { errorMsg: error.response?.data, ok: false, error };
+    } else {
+      console.error(error);
+    }
     return { ok: false, error, data: null };
   }
 };
