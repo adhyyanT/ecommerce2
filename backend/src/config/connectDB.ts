@@ -15,7 +15,6 @@ const AppDataSource = new DataSource({
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
   username: process.env.USER,
-  synchronize: false,
   // logging: true,
   entities: [User, Product, Cart, PurchasedItem, PurchasedOrder],
   // entities: ['./backend/Models/*.ts'],
