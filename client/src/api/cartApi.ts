@@ -72,7 +72,7 @@ export const checkout = async () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/cart/checkout',
+      url: `${backend}/cart/checkout`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
