@@ -33,7 +33,12 @@ export const getCart = async () => {
     const res = await axios.request(config);
     return res.data;
   } catch (error) {
-    console.log(error);
+    if (axios.isAxiosError(error)) {
+      console.error(error.response?.status);
+      return { errorCode: error.response?.status };
+    } else {
+      console.error(error);
+    }
     return null;
   }
 };
@@ -51,7 +56,12 @@ export const removeFromCart = async (id: number) => {
     await axios.request(config);
     return { ok: true };
   } catch (error) {
-    console.log(error);
+    if (axios.isAxiosError(error)) {
+      console.error(error.response?.status);
+      return { errorCode: error.response?.status, ok: false };
+    } else {
+      console.error(error);
+    }
     return { ok: false };
   }
 };
@@ -70,7 +80,12 @@ export const checkout = async () => {
     const res = await axios.request(config);
     return res.data.url;
   } catch (error) {
-    console.log(error);
+    if (axios.isAxiosError(error)) {
+      console.error(error.response?.status);
+      return { errorCode: error.response?.status };
+    } else {
+      console.error(error);
+    }
     return '';
   }
 };

@@ -19,8 +19,13 @@ export const getProducts = async (
     const res = await axios.request(config);
     return res.data;
   } catch (error) {
-    console.log(error);
-    return { total: 0, product: [] };
+    if (axios.isAxiosError(error)) {
+      console.error(error.response?.status);
+      return { total: 0, product: [], errorCode: error.response?.status };
+    } else {
+      console.error(error);
+      return { total: 0, product: [] };
+    }
   }
 };
 
@@ -39,7 +44,13 @@ export const getProduct = async (id: number) => {
     return res.data;
   } catch (error) {
     console.log(error);
-    return null;
+    if (axios.isAxiosError(error)) {
+      console.error(error.response);
+      return { errorCode: error.status };
+    } else {
+      console.error(error);
+      return null;
+    }
   }
 };
 
@@ -61,8 +72,13 @@ export const search = async (s: string) => {
     const res = await axios.request(config);
     return res.data;
   } catch (error) {
-    console.log(error);
-    return [];
+    if (axios.isAxiosError(error)) {
+      console.error(error.response);
+      return { errorCode: error.status };
+    } else {
+      console.error(error);
+      return [];
+    }
   }
 };
 
@@ -80,7 +96,12 @@ export const getProductDetails = async (id: number) => {
     const res = await axios.request(config);
     return res.data;
   } catch (error) {
-    console.log(error);
-    return { err: 'Not found' };
+    if (axios.isAxiosError(error)) {
+      console.error(error.response);
+      return { errorCode: error.status };
+    } else {
+      console.error(error);
+      return { err: 'Not found' };
+    }
   }
 };

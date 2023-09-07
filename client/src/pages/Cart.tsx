@@ -14,28 +14,36 @@ import {
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import { Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const [countDel, setCountDel] = useState(0);
   const [total, setTotal] = useState(0);
   const [cart, setCart] = useState<CartType[]>();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const handleCheckout = async () => {
     setLoading(true);
     const res = await checkout();
+    if (res.errorCode === 401) navigate('/');
+
     if (res === '') return;
     window.location.href = res;
     setLoading(false);
   };
   const handleDelete = async (id: number) => {
     const res = await removeFromCart(id);
+    if (res.errorCode === 401) navigate('/');
     if (res.ok) setCountDel(countDel + 1);
   };
   useEffect(() => {
     const _ = async () => {
-      const res: CartType[] = await getCart();
+      let res = await getCart();
+      if (res.errorCode === 401) navigate('/');
+      let res2 = res as CartType[];
       let t = 0;
-      res.map((prod) => (t += prod.price * prod.count));
+      res2.map((prod) => (t += prod.price * prod.count));
       setTotal(t);
       setCart(res);
     };

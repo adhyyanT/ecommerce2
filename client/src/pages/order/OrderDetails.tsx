@@ -11,22 +11,24 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { OrderDetailsType } from 'types';
 
 const OrderDetails = () => {
   let { orderId } = useParams();
   const [total, setTotal] = useState(0);
   const [orderDetail, setOrderDetail] = useState<OrderDetailsType[]>();
-
+  const navigate = useNavigate();
   useEffect(() => {
     const _ = async () => {
-      const res: OrderDetailsType[] = await getOrderDetails(
-        parseInt(orderId + '')
-      );
+      let res = await getOrderDetails(parseInt(orderId + ''));
+      if (res.errorCode === 401) {
+        navigate('/');
+      }
+      let res2 = res as OrderDetailsType[];
       setOrderDetail(res);
       let sum = 0;
-      res.map((order) => (sum += order.price * order.count));
+      res2.map((order) => (sum += order.price * order.count));
       setTotal(sum);
     };
     _();

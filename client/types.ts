@@ -35,10 +35,13 @@ export type AllOrderType = {
   createdAt: string;
 };
 
-export type OrderDetailsType = {
+export interface ErrorType {
+  errorCode?: number;
+}
+export interface OrderDetailsType extends ErrorType {
   item_id: number;
   count: number;
   price: number;
   image: number;
   title: string;
-};
+}

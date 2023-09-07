@@ -5,10 +5,11 @@ import ProductCard from '@/components/product-card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Product } from 'types';
 
 const Home = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(0);
@@ -18,6 +19,8 @@ const Home = () => {
     setSearch(e.target.value);
     const id = setTimeout(async () => {
       const res = await getProducts(0, 12, e.target.value);
+      console.log(res.errorCode);
+      if (res.errorCode === 401) navigate('/');
       setPage(0);
       setProducts(res.product);
       setTotal(Math.ceil(res.total / 12));
@@ -30,6 +33,7 @@ const Home = () => {
     try {
       let delta = inc ? 1 : -1;
       const res = await getProducts(page + delta, 12, search);
+      if (res.errorCode === 401) navigate('/');
       setProducts(res.product);
       setPage(page + delta);
       setTotal(Math.ceil(res.total / 12));
@@ -40,6 +44,7 @@ const Home = () => {
   useEffect(() => {
     const getProd = async () => {
       const res = await getProducts(page, 12, search);
+      if (res.errorCode === 401) navigate('/');
       setTotal(Math.ceil(res.total / 12));
       setProducts(res.product);
       setPage(0);
@@ -51,6 +56,7 @@ const Home = () => {
       clearTimeout(id);
     };
   }, []);
+  // if (!localStorage.getItem('token')) return navigate('/');
   return (
     <>
       <div className='h-full bg-background text-foreground'>

@@ -12,10 +12,16 @@ export const validatePayment = async (sessionId: string) => {
     };
 
     await axios.request(config);
-    return true;
+    return { val: true, errorCode: 0 };
   } catch (error) {
-    console.log(error);
-    return false;
+    if (axios.isAxiosError(error)) {
+      console.error(error.response?.status);
+      return { val: false, errorCode: error.response?.status };
+    } else {
+      console.error(error);
+      return { val: false, errorCode: 500 };
+    }
+    // return false;
   }
 };
 export const allOrders = async () => {
@@ -32,8 +38,13 @@ export const allOrders = async () => {
     const res = await axios.request(config);
     return res.data;
   } catch (error) {
-    console.log(error);
-    return [];
+    if (axios.isAxiosError(error)) {
+      console.error(error.response?.status);
+      return { data: [], errorCode: error.response?.status };
+    } else {
+      console.error(error);
+    }
+    return { data: [], errorCode: 500 };
   }
 };
 export const getOrderDetails = async (orderId: number) => {
@@ -50,7 +61,12 @@ export const getOrderDetails = async (orderId: number) => {
     const res = await axios.request(config);
     return res.data;
   } catch (error) {
-    console.log(error);
+    if (axios.isAxiosError(error)) {
+      console.error(error.response?.status);
+      return { errorCode: error.response?.status };
+    } else {
+      console.error(error);
+    }
     return [];
   }
 };

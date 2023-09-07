@@ -1,16 +1,19 @@
 import { validatePayment } from '@/api/orderApi';
 import { Nav } from '@/components/main-nav';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const OrderDone = () => {
   const query = new URLSearchParams(window.location.search);
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     const _ = async () => {
       const sessionId = query.get('session_id');
       if (!sessionId) return;
       const res = await validatePayment(sessionId);
-      setSuccess(res);
+      if (res.errorCode === 401) navigate('/');
+      setSuccess(res.val);
     };
     _();
   }, []);

@@ -8,15 +8,18 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AllOrderType } from 'types';
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState<AllOrderType[]>();
+  const navigate = useNavigate();
   useEffect(() => {
     const _ = async () => {
-      const res: AllOrderType[] = await allOrders();
-      res.sort((o1, o2) => {
+      let res = await allOrders();
+      if (res.errorCode === 401) navigate('/');
+      const res2 = res as AllOrderType[];
+      res2.sort((o1, o2) => {
         const compareDates = (d1: string, d2: string) => {
           let date1 = new Date(d1).getTime();
           let date2 = new Date(d2).getTime();
