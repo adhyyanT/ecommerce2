@@ -12,7 +12,6 @@ export const login = async (email: string, password: string) => {
       method: 'post',
       maxBodyLength: Infinity,
       url: `${backend}/user/login`,
-      withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
       },
