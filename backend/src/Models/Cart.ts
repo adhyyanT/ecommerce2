@@ -12,7 +12,7 @@ import {
 } from 'typeorm';
 import { User } from './User';
 import { Product } from './Product';
-
+import 'reflect-metadata';
 @Entity()
 export class Cart extends BaseEntity {
   @PrimaryGeneratedColumn()

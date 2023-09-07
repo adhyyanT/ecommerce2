@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Cart } from './Cart';
-
+import 'reflect-metadata';
 @Entity()
 export class Product extends BaseEntity {
   @PrimaryGeneratedColumn()

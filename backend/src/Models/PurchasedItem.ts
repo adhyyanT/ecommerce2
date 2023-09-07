@@ -13,7 +13,7 @@ import {
 import { User } from './User';
 import { Product } from './Product';
 import { PurchasedOrder } from './PurchasedOrder';
-
+import 'reflect-metadata';
 @Entity()
 export class PurchasedItem extends BaseEntity {
   @PrimaryGeneratedColumn()

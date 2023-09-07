@@ -18,6 +18,7 @@ const AppDataSource = new DataSource({
   synchronize: true,
   // logging: true,
   entities: [User, Product, Cart, PurchasedItem, PurchasedOrder],
+  // entities: ['./backend/Models/*.ts'],
 });
 
 AppDataSource.initialize()
