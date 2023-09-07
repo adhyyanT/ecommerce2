@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Button } from './ui/button';
-import { Box, ShoppingCart } from 'lucide-react';
+import { Box, LogOut, ShoppingCart } from 'lucide-react';
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -68,6 +68,7 @@ const Nav = () => {
                     className='w-full'
                     onClick={handleLogout}
                   >
+                    <LogOut size={40} className='pr-3' />
                     Logout
                   </Button>
                 </div>

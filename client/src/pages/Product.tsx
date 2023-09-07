@@ -61,6 +61,9 @@ const Product = () => {
           <div className='items-center text-justify text-muted-foreground'>
             {productDetail.desc}
           </div>
+          <div className='font-semibold items-center text-lg text-center md:text-left'>
+            $.{productDetail.price}
+          </div>
           <div className='flex justify-center md:justify-start mb-16'>
             <Button size={'lg'} onClick={handleAddToCart}>
               {isLoading && (
