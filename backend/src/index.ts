@@ -21,6 +21,7 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
     allowedHeaders: '*',
     exposedHeaders: '*',
+    credentials: true,
   })
 );
 app.use(morgan('combined'));
