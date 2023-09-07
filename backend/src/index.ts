@@ -15,7 +15,14 @@ dotenv.config();
 const app = express();
 app.use(passport.initialize());
 app.use(express.json());
-app.use(cors({ origin: process.env.client! }));
+app.use(
+  cors({
+    origin: process.env.client!,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
+    allowedHeaders: '*',
+    exposedHeaders: '*',
+  })
+);
 app.use(morgan('combined'));
 
 app.use('/user', userRoutes);
