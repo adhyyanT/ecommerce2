@@ -1,11 +1,12 @@
 import axios from 'axios';
+const backend = import.meta.env.VITE_backend;
 
 export const validatePayment = async (sessionId: string) => {
   try {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:5000/order/purchase_order?session_id=${sessionId}`,
+      url: `${backend}/order/purchase_order?session_id=${sessionId}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -29,7 +30,7 @@ export const allOrders = async () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/order/all_orders/',
+      url: `${backend}/order/all_orders/`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -52,7 +53,7 @@ export const getOrderDetails = async (orderId: number) => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:5000/order/past_order/${orderId}`,
+      url: `${backend}/order/past_order/${orderId}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },

@@ -1,4 +1,5 @@
 import axios from 'axios';
+const backend = import.meta.env.VITE_backend;
 
 export const getProducts = async (
   page: number,
@@ -10,7 +11,7 @@ export const getProducts = async (
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:5000/products/all_products?page=${page}&size=${size}&search=${search}`,
+      url: `${backend}/products/all_products?page=${page}&size=${size}&search=${search}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -34,7 +35,7 @@ export const getProduct = async (id: number) => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/products/product/' + id,
+      url: `${backend}/products/product/${id}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -59,7 +60,7 @@ export const search = async (s: string) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/products/search',
+      url: `${backend}/products/search`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
@@ -87,7 +88,7 @@ export const getProductDetails = async (id: number) => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/products/product/' + id,
+      url: `${backend}/products/product/${id}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },

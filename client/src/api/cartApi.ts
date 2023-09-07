@@ -1,11 +1,12 @@
 import axios from 'axios';
+const backend = import.meta.env.VITE_backend;
 
 export const putItemInCart = async (id: number) => {
   try {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/cart/add/' + id,
+      url: `${backend}/cart/add/` + id,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -24,7 +25,7 @@ export const getCart = async () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/cart/getcart',
+      url: `${backend}/cart/getcart`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -47,7 +48,7 @@ export const removeFromCart = async (id: number) => {
     let config = {
       method: 'delete',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/cart/remove/' + id,
+      url: `${backend}/cart/remove/${id}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },

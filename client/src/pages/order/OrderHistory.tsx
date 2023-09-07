@@ -52,8 +52,8 @@ const OrderHistory = () => {
       ) : (
         <div className='flex flex-col items-center'>
           <div className='grid grid-cols-1 py-[10vh] gap-8 px-[4vw]  place-content-center md:grid-cols-4'>
-            {orders?.map((order) => (
-              <>
+            {orders?.map((order, index) => (
+              <div key={index}>
                 <Link to={`/order/details/${order.order_id}`}>
                   <Card
                     key={order.order_id}
@@ -73,7 +73,7 @@ const OrderHistory = () => {
                     </CardDescription>
                   </Card>
                 </Link>
-              </>
+              </div>
             ))}
           </div>
         </div>

@@ -62,7 +62,7 @@ const Product = () => {
             {productDetail.desc}
           </div>
           <div className='font-semibold items-center text-lg text-center md:text-left'>
-            $.{productDetail.price}
+            ${productDetail.price}
           </div>
           <div className='flex justify-center md:justify-start mb-16'>
             <Button size={'lg'} onClick={handleAddToCart}>

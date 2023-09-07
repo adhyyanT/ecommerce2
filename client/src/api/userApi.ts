@@ -1,4 +1,5 @@
 import axios from 'axios';
+const backend = import.meta.env.VITE_backend;
 
 export const login = async (email: string, password: string) => {
   try {
@@ -10,7 +11,7 @@ export const login = async (email: string, password: string) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/user/login',
+      url: `${backend}/user/login`,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -36,7 +37,7 @@ export const register = async (
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/user/register',
+      url: `${backend}/user/register`,
       headers: {
         'Content-Type': 'application/json',
       },
