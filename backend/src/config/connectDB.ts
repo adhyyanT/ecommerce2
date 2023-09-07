@@ -15,17 +15,17 @@ const AppDataSource = new DataSource({
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
   username: process.env.USER,
+
   // logging: true,
   entities: [User, Product, Cart, PurchasedItem, PurchasedOrder],
   // entities: ['./backend/Models/*.ts'],
 });
 
-AppDataSource.initialize()
-  .then(() => {
-    console.log('Data Source has been initialized!');
-  })
-  .catch((err) => {
-    console.error('Error during Data Source initialization', err);
-  });
+const _ = async () => {
+  const res = await AppDataSource.initialize();
 
+  console.log('Init datasource');
+};
+_();
+// console.log(AppDataSource);
 export { AppDataSource };

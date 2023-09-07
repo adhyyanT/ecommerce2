@@ -8,8 +8,6 @@ import { LoginBody, RegisterBody } from '../types';
 import createHttpError from 'http-errors';
 dotenv.config();
 
-const userRepo = AppDataSource.getRepository(User);
-
 export const register: RequestHandler<
   unknown,
   unknown,
@@ -17,6 +15,7 @@ export const register: RequestHandler<
   unknown
 > = async (req, res, next) => {
   try {
+    const userRepo = AppDataSource.getRepository(User);
     const { name, username, email, password } = req.body;
     if (!name || !username || !email || !password)
       return next(createHttpError(400, 'All fields are mandatory'));
@@ -59,6 +58,7 @@ export const login: RequestHandler<
   LoginBody,
   unknown
 > = async (req, res, next) => {
+  const userRepo = AppDataSource.getRepository(User);
   try {
     const { email, password } = req.body;
     if (!email || !password)
