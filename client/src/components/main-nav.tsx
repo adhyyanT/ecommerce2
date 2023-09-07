@@ -1,14 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Icons } from './icons';
-
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from '@/components/ui/dropdown-menu';
 import {
   Sheet,
   SheetContent,
@@ -21,6 +12,11 @@ import { Button } from './ui/button';
 import { Box, ShoppingCart } from 'lucide-react';
 
 const Nav = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  };
   return (
     <div className=' text-foreground border-b-2  h-16 pt-5 overflow-x-hidden '>
       <div className='flex justify-between w-screen'>
@@ -58,12 +54,22 @@ const Nav = () => {
                     </Button>
                   </Link>
                 </div>
-                <div className='grid grid-cols-1 items-center gap-4'>
+                <div className='grid grid-cols-1 items-center gap-4 border-b-4'>
                   <Link to={'/order'}>
                     <Button size={'lg'} variant={'ghost'} className='w-full'>
                       <Icons.user size={40} className='pr-3' /> Your Profile
                     </Button>
                   </Link>
+                </div>
+                <div>
+                  <Button
+                    variant={'ghost'}
+                    size={'lg'}
+                    className='w-full'
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
                 </div>
               </div>
             </SheetContent>

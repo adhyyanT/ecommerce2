@@ -29,3 +29,16 @@ export type CartType = {
   price: number;
   image: number;
 };
+export type AllOrderType = {
+  order_id: number;
+  product_id: number;
+  createdAt: string;
+};
+
+export type OrderDetailsType = {
+  item_id: number;
+  count: number;
+  price: number;
+  image: number;
+  title: string;
+};

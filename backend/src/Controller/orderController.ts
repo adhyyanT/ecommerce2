@@ -75,7 +75,7 @@ export const pastOrderDetails: RequestHandler<
     const userId = req.user!.id;
     const items = await poRepo.query(
       `
-          SELECT pi.item_id,pi.count,p.price,p.image
+          SELECT pi.item_id,pi.count,p.price,p.image,p.title
           from purchased_order as po 
           INNER JOIN purchased_item as pi 
           ON po.order_id = pi.purchase_order_id
