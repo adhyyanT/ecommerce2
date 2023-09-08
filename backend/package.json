@@ -23,11 +23,11 @@
     "@types/passport-jwt": "^3.0.9",
     "@types/passport-local": "^1.0.35",
     "@types/pg": "^8.10.2",
-    "morgan": "^1.10.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "morgan": "^1.10.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
