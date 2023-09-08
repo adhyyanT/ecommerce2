@@ -2,12 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/src/index.js",
+  "main": "/dist/src/index.js",
   "scripts": {
     "devStart": "nodemon src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --build",
-    "start": "node index.js"
+    "build": "tsc --build"
   },
   "author": "Adhyyan",
   "license": "ISC",
