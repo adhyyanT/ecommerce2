@@ -7,8 +7,7 @@
     "start": "node dist/src/index.js",
     "devStart": "nodemon src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --build",
-    "vercel-build": "echo hi"
+    "build": "tsc --build"
   },
   "author": "Adhyyan",
   "license": "ISC",
