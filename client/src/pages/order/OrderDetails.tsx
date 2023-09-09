@@ -69,7 +69,7 @@ const OrderDetails = () => {
               </TableCell>
 
               <TableCell className='text-left py-7 w-[8vw] border-t-4 font-extrabold text-lg'>
-                {total}
+                ${total}
               </TableCell>
             </TableRow>
           </TableBody>

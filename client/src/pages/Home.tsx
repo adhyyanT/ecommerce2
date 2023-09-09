@@ -1,4 +1,5 @@
 import { getProducts } from '@/api/productApi';
+import { CustomeSkeleton } from '@/components/CustomeSkeleton';
 import { Icons } from '@/components/icons';
 import { Nav } from '@/components/main-nav';
 import ProductCard from '@/components/product-card';
@@ -14,9 +15,11 @@ const Home = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+    setLoading(true);
     const id = setTimeout(async () => {
       const res = await getProducts(0, 12, e.target.value);
       if (res.errorCode === 401) navigate('/');
@@ -24,11 +27,13 @@ const Home = () => {
       setProducts(res.product);
       setTotal(Math.ceil(res.total / 12));
     }, 1000);
+    setLoading(false);
     return () => {
       clearTimeout(id);
     };
   };
   const getProductsPaginated = async (inc: boolean) => {
+    setLoading(true);
     try {
       let delta = inc ? 1 : -1;
       const res = await getProducts(page + delta, 12, search);
@@ -39,14 +44,17 @@ const Home = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
   useEffect(() => {
     const getProd = async () => {
+      setLoading(true);
       const res = await getProducts(page, 12, search);
       if (res.errorCode === 401) navigate('/');
       setTotal(Math.ceil(res.total / 12));
       setProducts(res.product);
       setPage(0);
+      setLoading(false);
     };
     const id = setTimeout(() => {
       getProd();
@@ -55,15 +63,10 @@ const Home = () => {
       clearTimeout(id);
     };
   }, []);
-  // if (!localStorage.getItem('token')) return navigate('/');
   return (
     <>
       <div className='min-h-screen bg-background text-foreground'>
         <Nav />
-
-        {/* <div className=' text-foreground border-b-2  h-16 pt-5 overflow-x-hidden'>
-       
-      </div> */}
         <div className=' contianer w-full flex place-content-center mt-[15vh] mb-[15vh] text-foreground'>
           <Input
             type='text'
@@ -75,10 +78,20 @@ const Home = () => {
         <div className='flex flex-grow justify-center '>
           {products.length === 0 ? (
             <div className='flex flex-col h-[33vh] font-semibold text-xl gap-6 text-center'>
-              <div className='flex place-content-center '>
-                <Icons.warning color='orange' size={40} />
-              </div>
-              We currently do not offer what you are looking for...
+              {loading ? (
+                <div className='gap-8 grid grid-cols-1 md:flex '>
+                  <CustomeSkeleton />
+                  <CustomeSkeleton />
+                  <CustomeSkeleton />
+                </div>
+              ) : (
+                <>
+                  <div className='flex place-content-center '>
+                    <Icons.warning color='orange' size={40} />
+                  </div>
+                  We currently do not offer what you are looking for...
+                </>
+              )}
             </div>
           ) : (
             <div className='grid grid-cols-1 place-content-center gap-14 mb-[15vh] md:grid-cols-4'>
@@ -90,7 +103,11 @@ const Home = () => {
             </div>
           )}
         </div>
-        <div className='text-foreground flex place-content-center bg-background gap-6 pb-10'>
+        <div
+          className={`text-foreground place-content-center bg-background gap-6 pb-10 ${
+            loading ? 'hidden' : 'flex'
+          }`}
+        >
           <Button
             variant={'ghost'}
             size={'sm'}

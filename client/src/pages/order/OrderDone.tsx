@@ -1,20 +1,30 @@
 import { validatePayment } from '@/api/orderApi';
+import { CustomeSkeleton } from '@/components/CustomeSkeleton';
 import { Nav } from '@/components/main-nav';
+import { resetCart } from '@/store/features/cartSlice';
+import { useAppDispatch } from '@/store/store';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const OrderDone = () => {
   const query = new URLSearchParams(window.location.search);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const _ = async () => {
+      setLoading(true);
       const sessionId = query.get('session_id');
       if (!sessionId) return;
       const res = await validatePayment(sessionId);
       if (res.errorCode === 401) navigate('/');
       setSuccess(res.val);
+      if (res.val) dispatch(resetCart());
+      setLoading(false);
     };
+
     _();
   }, []);
   return (
@@ -28,7 +38,7 @@ const OrderDone = () => {
           </div>
         ) : (
           <div className='font-extrabold text-3xl md:text-7xl'>
-            Payment failed ❌
+            {loading ? <CustomeSkeleton /> : <div>Payment failed ❌ </div>}
           </div>
         )}
       </div>

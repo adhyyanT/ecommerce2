@@ -36,7 +36,7 @@ const Nav = () => {
         <div className='flex place-items-end pr-[4vw] dark bg-background gap-8'>
           <div className='flex'>
             <Link to={'/cart'}>
-              <Badge variant={'destructive'} className='text-foreground'>
+              <Badge variant={'outline'} className='text-foreground'>
                 <ShoppingCart className='pr-2' size={21} /> {cart}
               </Badge>
             </Link>
