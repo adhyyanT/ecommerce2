@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { CartType } from 'types';
 const backend = import.meta.env.VITE_backend;
 
 export const putItemInCart = async (id: number) => {

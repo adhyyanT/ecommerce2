@@ -15,8 +15,8 @@ import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import { Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@/store/store';
-import { addProduct, removeProduct } from '@/store/features/cartSlice';
+import { useAppDispatch } from '@/store/store';
+import { removeProduct } from '@/store/features/cartSlice';
 
 const Cart = () => {
   const [countDel, setCountDel] = useState(0);
