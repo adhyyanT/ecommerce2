@@ -10,25 +10,42 @@ import {
 } from '@/components/ui/sheet';
 import { Button } from './ui/button';
 import { Box, LogOut, ShoppingCart } from 'lucide-react';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { Badge } from './ui/badge';
+import { useEffect } from 'react';
+import { fetchCart } from '@/store/features/cartSlice';
 
 const Nav = () => {
+  const cart = useAppSelector((state) => state.cart.cart);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/');
   };
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, []);
   return (
     <div className=' text-foreground border-b-2  h-16 pt-5 overflow-x-hidden '>
       <div className='flex justify-between w-screen'>
-        <a href='/home' className='gap-6 flex pl-[4vw]'>
+        <Link to={'/home'} className='gap-6 flex pl-[4vw]'>
           <Icons.logo />
           <span className='  font-bold '>Ecommerce</span>
-        </a>
-        <div className='flex place-items-end pr-[4vw] dark bg-background '>
+        </Link>
+        <div className='flex place-items-end pr-[4vw] dark bg-background gap-8'>
+          <div className='flex'>
+            <Link to={'/cart'}>
+              <Badge variant={'destructive'} className='text-foreground'>
+                <ShoppingCart className='pr-2' size={21} /> {cart}
+              </Badge>
+            </Link>
+          </div>
+
           <Sheet>
             <SheetTrigger asChild>
               <button>
-                <Icons.user />
+                <Icons.user size={24} />
               </button>
             </SheetTrigger>
             <SheetContent className='dark bg-background text-foreground '>

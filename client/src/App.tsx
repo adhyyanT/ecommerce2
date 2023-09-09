@@ -8,23 +8,27 @@ import Cart from './pages/Cart';
 import OrderDone from './pages/order/OrderDone';
 import OrderHistory from './pages/order/OrderHistory';
 import OrderDetails from './pages/order/OrderDetails';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 function App() {
   return (
     <>
-      <div className='dark bg-background '>
-        <Toaster />
-        <Routes>
-          <Route path='/' element={<Login />} />
-          <Route path='/signup' element={<Register />} />
-          <Route path='/home' element={<Home />} />
-          <Route path='/product/:productId' element={<Product />} />
-          <Route path='/cart' element={<Cart />} />
-          <Route path='/order' element={<OrderHistory />} />
-          <Route path='/order/done' element={<OrderDone />} />
-          <Route path='/order/details/:orderId' element={<OrderDetails />} />
-        </Routes>
-      </div>
+      <Provider store={store}>
+        <div className='dark bg-background '>
+          <Toaster />
+          <Routes>
+            <Route path='/' element={<Login />} />
+            <Route path='/signup' element={<Register />} />
+            <Route path='/home' element={<Home />} />
+            <Route path='/product/:productId' element={<Product />} />
+            <Route path='/cart' element={<Cart />} />
+            <Route path='/order' element={<OrderHistory />} />
+            <Route path='/order/done' element={<OrderDone />} />
+            <Route path='/order/details/:orderId' element={<OrderDetails />} />
+          </Routes>
+        </div>
+      </Provider>
     </>
   );
 }

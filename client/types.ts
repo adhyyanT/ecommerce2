@@ -24,10 +24,10 @@ export type MainNavItem = NavItem;
 export type CartType = {
   product_id: number;
   count: number;
-  title: number;
-  desc: number;
+  title: string;
+  desc: string;
   price: number;
-  image: number;
+  image: string;
 };
 export type AllOrderType = {
   order_id: number;
@@ -42,6 +42,6 @@ export interface OrderDetailsType extends ErrorType {
   item_id: number;
   count: number;
   price: number;
-  image: number;
+  image: string;
   title: string;
 }

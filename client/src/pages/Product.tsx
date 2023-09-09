@@ -8,11 +8,14 @@ import { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 import { SingleProductType } from 'types';
+import { useAppDispatch } from '@/store/store';
+import { addProduct } from '@/store/features/cartSlice';
 
 const Product = () => {
   const { productId } = useParams();
   const [productDetail, setProductDetail] = useState<SingleProductType>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const handleAddToCart = async () => {
     setIsLoading(true);
@@ -25,7 +28,7 @@ const Product = () => {
         variant: 'destructive',
       });
     }
-
+    dispatch(addProduct(1));
     return toast({
       title: `Item ${productDetail?.title} added to your cart`,
       description: 'To check out, go to your cart from top.',
