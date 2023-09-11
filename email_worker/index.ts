@@ -16,6 +16,7 @@ const con = new IORedis(process.env.redis_url!, {
   maxRetriesPerRequest: null,
 });
 
+console.log('[X] Listening ');
 const worker = new Worker(
   'email_queue',
   async (job: Job) => {
