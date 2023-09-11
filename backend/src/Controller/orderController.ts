@@ -5,7 +5,15 @@ import { PurchasedOrder } from '../Models/PurchasedOrder';
 import { PurchasedItem } from '../Models/PurchasedItem';
 import { getCartHelper } from './cartController';
 import Stripe from 'stripe';
-import { OrderDetailParams, StripeSessionType } from '../types';
+import {
+  OrderDetailParams,
+  StripeSessionType,
+  emailType,
+  EmailProductType,
+} from '../types';
+import { Queue } from 'bullmq';
+import { User } from '../Models/User';
+import IORedis from 'ioredis';
 
 const stripe = new Stripe(process.env.stripe_key!, {
   apiVersion: '2023-08-16',
@@ -13,6 +21,7 @@ const stripe = new Stripe(process.env.stripe_key!, {
 const cartRepo = AppDataSource.getRepository(Cart);
 const poRepo = AppDataSource.getRepository(PurchasedOrder);
 const piRepo = AppDataSource.getRepository(PurchasedItem);
+const userRepo = AppDataSource.getRepository(User);
 
 export const createPurchaseOrder: RequestHandler<
   unknown,
@@ -28,12 +37,30 @@ export const createPurchaseOrder: RequestHandler<
     );
     if (!session || session.status !== 'complete' || userCart.length === 0)
       return res.sendStatus(400);
+
+    // send email to client
+    const user = await userRepo.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
+    let emailProducts: EmailProductType[] = [];
+    let total = 0;
+
     //create purchase order
     const po = new PurchasedOrder();
     po.user_id = userId;
     let t = await poRepo.save(po);
+
     // add purchase products
     userCart.map(async (product: any) => {
+      total += product.price * product.count;
+      emailProducts.push({
+        title: product.title,
+        count: product.count,
+        price: product.price,
+      });
       const pi = new PurchasedItem();
       pi.purchase_order_id = t.order_id;
       pi.item_id = product.product_id;
@@ -45,7 +72,20 @@ export const createPurchaseOrder: RequestHandler<
       .delete()
       .where('user_id = :id', { id: userId })
       .execute();
-    return res.sendStatus(200);
+
+    const emailData = {
+      emailId: user!.email,
+      total,
+      emailProducts,
+      name: user!.name,
+    };
+    const redis = new IORedis(process.env.redis_url!);
+    const emailQueue = new Queue('email_queue', {
+      connection: redis,
+    });
+
+    res.sendStatus(200);
+    await emailQueue.add(`email to ${emailData.name}`, emailData);
   } catch (error) {
     next(error);
   }

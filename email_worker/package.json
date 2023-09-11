@@ -1,0 +1,23 @@
+{
+  "name": "email_worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bullmq": "^4.9.0",
+    "dotenv": "^16.3.1",
+    "nodemailer": "^6.9.5"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.10",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}

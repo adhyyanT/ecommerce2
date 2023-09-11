@@ -39,3 +39,9 @@ export type SearchBody = {
 export type ProductIdParams = {
   productId: number;
 };
+export type emailType = {
+  products: EmailProductType[];
+  emailId: string;
+  total: number;
+};
+export type EmailProductType = { title: string; price: number; count: number };
