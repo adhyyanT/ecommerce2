@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import IORedis from 'ioredis';
 import nodeMailer from 'nodemailer';
 dotenv.config();
-
+console.log('start');
 const transporter = nodeMailer.createTransport({
   service: 'hotmail',
   auth: {
@@ -11,7 +11,7 @@ const transporter = nodeMailer.createTransport({
     pass: process.env.email_pass,
   },
 });
-
+console.log('done transporter');
 const con = new IORedis(process.env.redis_url!, {
   maxRetriesPerRequest: null,
 });
