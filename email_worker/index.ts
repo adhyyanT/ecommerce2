@@ -19,8 +19,8 @@ const con = new IORedis(process.env.redis_url!, {
 });
 
 const server = http.createServer();
-server.listen(3000, () => {
-  console.log('server started on port 3000');
+server.listen(process.env.server_port || 3000, () => {
+  console.log(`server started on port ${process.env.server_port}`);
   console.log('[X] Listening ');
   const worker = new Worker(
     'email_queue',
