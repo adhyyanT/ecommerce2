@@ -39,4 +39,28 @@ You can access the hosted website by clicking [here.](https://ecommerce2-rg4r.ve
 
 ## Login page
 
-![Login Page](http://url/to/img.png)
+![Login Page](https://github.com/adhyyanT/ecommerce2/blob/main/assets/signin.PNG)
+
+## Signup page
+
+![Signup page](https://github.com/adhyyanT/ecommerce2/blob/main/assets/singup.PNG)
+
+## Home page
+
+![Home Page](https://github.com/adhyyanT/ecommerce2/blob/main/assets/homepage.PNG)
+
+## Side bar
+
+![Side Bar](https://github.com/adhyyanT/ecommerce2/blob/main/assets/sidebar.PNG)
+
+## Product Page
+
+![Product Page](https://github.com/adhyyanT/ecommerce2/blob/main/assets/product_page.PNG)
+
+## Done page
+
+![Done Page](https://github.com/adhyyanT/ecommerce2/blob/main/assets/order_placed.PNG)
+
+## Order History
+
+![Order History](https://github.com/adhyyanT/ecommerce2/blob/main/assets/past_orders.PNG)
