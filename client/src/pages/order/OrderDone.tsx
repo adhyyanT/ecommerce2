@@ -1,6 +1,7 @@
 import { validatePayment } from '@/api/orderApi';
 import { CustomeSkeleton } from '@/components/CustomeSkeleton';
 import { Nav } from '@/components/main-nav';
+import { toast } from '@/components/ui/use-toast';
 import { resetCart } from '@/store/features/cartSlice';
 import { useAppDispatch } from '@/store/store';
 import { useEffect, useState } from 'react';
@@ -23,6 +24,12 @@ const OrderDone = () => {
       setSuccess(res.val);
       if (res.val) dispatch(resetCart());
       setLoading(false);
+      if (res.val)
+        return toast({
+          title: 'An Email has been sent to your Email ID',
+          description: `Thanks for using Ecommerce!`,
+          variant: 'default',
+        });
     };
 
     _();
