@@ -1,5 +1,6 @@
 import { validatePayment } from '@/api/orderApi';
 import { CustomeSkeleton } from '@/components/CustomeSkeleton';
+import { Footer } from '@/components/footer';
 import { Nav } from '@/components/main-nav';
 import { toast } from '@/components/ui/use-toast';
 import { resetCart } from '@/store/features/cartSlice';
@@ -49,6 +50,7 @@ const OrderDone = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

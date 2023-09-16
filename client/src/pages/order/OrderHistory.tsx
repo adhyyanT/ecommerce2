@@ -1,4 +1,5 @@
 import { allOrders } from '@/api/orderApi';
+import { Footer } from '@/components/footer';
 import { Nav } from '@/components/main-nav';
 import {
   Card,
@@ -78,6 +79,7 @@ const OrderHistory = () => {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 };

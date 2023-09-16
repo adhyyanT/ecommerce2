@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import { SingleProductType } from 'types';
 import { useAppDispatch } from '@/store/store';
 import { addProduct } from '@/store/features/cartSlice';
+import { Footer } from '@/components/footer';
 
 const Product = () => {
   const { productId } = useParams();
@@ -48,36 +49,39 @@ const Product = () => {
 
   if (!productDetail) return;
   return (
-    <div className='min-h-screen flex flex-col bg-background text-foreground overflow-hidden'>
-      <Nav />
-      <div className=' grid grid-cols-1 flex-1 md:grid-cols-5 gap-4'>
-        <div className='flex items-center justify-center h-full md:col-span-2 '>
-          <img
-            src={productDetail.image}
-            alt='IMG'
-            className='place-content-center h-96 w-96 px-6'
-          />
-        </div>
-        <div className='flex flex-col text-left  justify-center  pl-6  h-full pr-4 gap-8 md:col-span-3'>
-          <div className=' text-4xl font-semibold'>{productDetail.title}</div>
+    <>
+      <div className='min-h-screen flex flex-col bg-background text-foreground overflow-hidden'>
+        <Nav />
+        <div className=' grid grid-cols-1 flex-1 md:grid-cols-5 gap-4'>
+          <div className='flex items-center justify-center h-full md:col-span-2 '>
+            <img
+              src={productDetail.image}
+              alt='IMG'
+              className='place-content-center h-96 w-96 px-6'
+            />
+          </div>
+          <div className='flex flex-col text-left  justify-center  pl-6  h-full pr-4 gap-8 md:col-span-3'>
+            <div className=' text-4xl font-semibold'>{productDetail.title}</div>
 
-          <div className='items-center text-justify text-muted-foreground'>
-            {productDetail.desc}
-          </div>
-          <div className='font-semibold items-center text-lg text-center md:text-left'>
-            ${productDetail.price}
-          </div>
-          <div className='flex justify-center md:justify-start mb-16'>
-            <Button size={'lg'} onClick={handleAddToCart}>
-              {isLoading && (
-                <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
-              )}
-              Add to Cart
-            </Button>
+            <div className='items-center text-justify text-muted-foreground'>
+              {productDetail.desc}
+            </div>
+            <div className='font-semibold items-center text-lg text-center md:text-left'>
+              ${productDetail.price}
+            </div>
+            <div className='flex justify-center md:justify-start mb-16'>
+              <Button size={'lg'} onClick={handleAddToCart}>
+                {isLoading && (
+                  <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
+                )}
+                Add to Cart
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

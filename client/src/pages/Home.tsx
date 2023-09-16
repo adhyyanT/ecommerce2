@@ -1,5 +1,7 @@
 import { getProducts } from '@/api/productApi';
 import { CustomeSkeleton } from '@/components/CustomeSkeleton';
+import { Footer } from '@/components/footer';
+
 import { Icons } from '@/components/icons';
 import { Nav } from '@/components/main-nav';
 import ProductCard from '@/components/product-card';
@@ -128,6 +130,7 @@ const Home = () => {
             <Icons.MoveRight />
           </Button>
         </div>
+        <Footer />
       </div>
     </>
   );

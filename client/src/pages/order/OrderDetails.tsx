@@ -1,4 +1,5 @@
 import { getOrderDetails } from '@/api/orderApi';
+import { Footer } from '@/components/footer';
 import { Nav } from '@/components/main-nav';
 
 import {
@@ -75,6 +76,7 @@ const OrderDetails = () => {
           </TableBody>
         </Table>
       </div>
+      <Footer />
     </div>
   );
 };

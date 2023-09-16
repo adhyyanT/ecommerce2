@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       <Provider store={store}>
-        <div className='dark bg-background '>
+        <div className='dark bg-background text-muted-foreground'>
           <Toaster />
           <Routes>
             <Route path='/' element={<Login />} />
