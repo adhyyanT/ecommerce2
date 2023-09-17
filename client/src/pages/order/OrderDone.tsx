@@ -50,7 +50,15 @@ const OrderDone = () => {
           </div>
         ) : (
           <div className='font-extrabold text-3xl md:text-7xl'>
-            {loading ? <CustomeSkeleton /> : <div>Payment failed ❌ </div>}
+            {loading ? (
+              <div className='flex gap-4'>
+                <CustomeSkeleton />
+                <CustomeSkeleton />
+                <CustomeSkeleton />
+              </div>
+            ) : (
+              <div>Payment failed ❌ </div>
+            )}
           </div>
         )}
       </div>

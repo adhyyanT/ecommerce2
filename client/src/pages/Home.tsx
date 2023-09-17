@@ -130,7 +130,7 @@ const Home = () => {
               {products.length === 0 ? (
                 <div className='flex flex-col h-[33vh] font-semibold text-xl gap-6 text-center'>
                   {loading ? (
-                    <div className='gap-20 grid grid-cols-1 md:flex '>
+                    <div className='gap-10 grid grid-cols-1 md:flex '>
                       <CustomeSkeleton />
                       <CustomeSkeleton />
                       <CustomeSkeleton />
