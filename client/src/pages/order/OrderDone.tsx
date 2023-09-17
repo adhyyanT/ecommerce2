@@ -19,7 +19,11 @@ const OrderDone = () => {
     const _ = async () => {
       setLoading(true);
       const sessionId = query.get('session_id');
-      if (!sessionId) return;
+
+      if (!sessionId) {
+        setLoading(false);
+        return;
+      }
       const res = await validatePayment(sessionId);
       if (res.errorCode === 401) navigate('/');
       setSuccess(res.val);
