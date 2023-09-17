@@ -4,14 +4,23 @@ const backend = import.meta.env.VITE_backend;
 export const getProducts = async (
   page: number,
   size: number,
-  search: string
+  search: string,
+  filters: string[]
 ) => {
   try {
     if (!search) search = '';
+    let url = `${backend}/products/all_products?page=${page}&size=${size}&search=${search}`;
+    if (filters.length !== 0) {
+      url += '&filters=';
+      filters.map((f) => {
+        url += f + ',';
+      });
+    }
+    url = url.substring(0, url.length - 1);
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${backend}/products/all_products?page=${page}&size=${size}&search=${search}`,
+      url,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },

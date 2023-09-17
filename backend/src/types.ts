@@ -30,10 +30,12 @@ export type PaginationType = {
   page?: number;
   size?: number;
   search?: string;
+  filters?: string;
 };
 
 export type SearchBody = {
   search: string;
+  filters?: string[];
 };
 
 export type ProductIdParams = {
