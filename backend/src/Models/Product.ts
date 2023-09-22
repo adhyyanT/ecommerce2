@@ -50,7 +50,7 @@ const Product = sequelize.define<ProductModal>(
   { freezeTableName: true }
 );
 
-Product.sync().then(() => {
+Product.sync({ alter: true }).then(() => {
   Product.hasMany(Cart, { foreignKey: 'product_id' });
 });
 export { Product };

@@ -72,7 +72,7 @@ const PurchaseOrder = sequelize.define<PurchaseOrderModel>(
   { freezeTableName: true }
 );
 
-PurchaseOrder.sync().then(() => {
+PurchaseOrder.sync({ alter: true }).then(() => {
   PurchaseOrder.hasMany(PurchasedItem, {
     foreignKey: 'purchase_order_id',
   });
