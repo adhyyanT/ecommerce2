@@ -2,4 +2,5 @@ backend/node_modules
 backend/.env
 backend/dist
 email_worker/.env
+backend/src/product_rows.csv
 email_worker/node_modules
