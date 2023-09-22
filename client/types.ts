@@ -5,11 +5,11 @@ export type NavItem = {
 };
 
 export type Product = {
-  p_id: number;
-  p_title: string;
-  p_image: string;
-  p_price: number;
-  p_desc: string;
+  id: number;
+  title: string;
+  image: string;
+  price: number;
+  desc: string;
 };
 
 export type SingleProductType = {

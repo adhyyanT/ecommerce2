@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { User } from '../Models/User';
 import bcrypt from 'bcrypt';
-import { AppDataSource } from '../config/connectDB';
+
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { LoginBody, RegisterBody } from '../types';
@@ -15,12 +15,12 @@ export const register: RequestHandler<
   unknown
 > = async (req, res, next) => {
   try {
-    const userRepo = AppDataSource.getRepository(User);
+    // const userRepo = AppDataSource.getRepository(User);
     const { name, username, email, password } = req.body;
     if (!name || !username || !email || !password)
       return next(createHttpError(400, 'All fields are mandatory'));
 
-    const already = await userRepo.findOne({
+    const already = await User.findOne({
       where: [{ username }, { email }],
     });
 
@@ -31,12 +31,13 @@ export const register: RequestHandler<
           'A user already exists with the same Email Or Username'
         )
       );
-    const user = new User();
-    user.email = email;
-    user.name = name;
-    user.username = username;
-    user.password = await bcrypt.hash(password, 10);
-    await userRepo.save(user);
+    const hashedPass = await bcrypt.hash(password, 10);
+    const user = await User.create({
+      email,
+      name,
+      password: hashedPass,
+      username,
+    });
 
     req.login(user, { session: false }, (err) => {
       if (err) {
@@ -58,12 +59,12 @@ export const login: RequestHandler<
   LoginBody,
   unknown
 > = async (req, res, next) => {
-  const userRepo = AppDataSource.getRepository(User);
+  //   const userRepo = AppDataSource.getRepository(User);
   try {
     const { email, password } = req.body;
     if (!email || !password)
       return next(createHttpError(400, 'All fields are mandatory'));
-    const user = await userRepo.findOne({
+    const user = await User.findOne({
       where: {
         email,
       },

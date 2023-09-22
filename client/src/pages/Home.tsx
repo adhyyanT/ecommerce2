@@ -89,7 +89,7 @@ const Home = () => {
       clearTimeout(id);
     };
   }, []);
-
+  console.log(products);
   return (
     <>
       <div className='min-h-screen bg-background text-foreground'>
@@ -147,8 +147,8 @@ const Home = () => {
               ) : (
                 <div className='grid grid-cols-1 place-content-center gap-14 mb-[15vh] md:grid-cols-3'>
                   {products.map((product: Product) => (
-                    <Link key={product.p_id} to={`/product/${product.p_id}`}>
-                      <ProductCard key={product.p_id} product={product} />
+                    <Link key={product.id} to={`/product/${product.id}`}>
+                      <ProductCard key={product.id} product={product} />
                     </Link>
                   ))}
                 </div>

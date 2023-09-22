@@ -1,31 +1,26 @@
-import 'reflect-metadata';
-import { DataSource } from 'typeorm';
-import { User } from '../Models/User';
+import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
-import { Product } from '../Models/Product';
-import { Cart } from '../Models/Cart';
-import { PurchasedItem } from '../Models/PurchasedItem';
-import { PurchasedOrder } from '../Models/PurchasedOrder';
 dotenv.config();
+// HOST=db.vfviigapinvcwsgzlnyd.supabase.co
 
-const AppDataSource = new DataSource({
-  type: 'postgres',
-  host: process.env.HOST,
-  port: parseInt(process.env.DB_PORT!),
-  password: process.env.PASSWORD,
-  database: process.env.DATABASE,
-  username: process.env.USER,
+export const sequelize = new Sequelize(
+  process.env.DATABASE!,
+  process.env.USER!,
+  process.env.PASSWORD!,
+  {
+    host: process.env.DB_HOST!,
+    dialect: 'postgres',
+    port: parseInt(process.env.DB_PORT!),
+    // logging: true,
+    logging: console.log,
+  }
+);
 
-  // logging: true,
-  entities: [User, Product, Cart, PurchasedItem, PurchasedOrder],
-  // entities: ['./backend/Models/*.ts'],
-});
-
-const _ = async () => {
-  const res = await AppDataSource.initialize();
-
-  console.log('Init datasource');
-};
-_();
-// console.log(AppDataSource);
-export { AppDataSource };
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch((error) => {
+    console.error('Unable to connect to the database:', error);
+  });

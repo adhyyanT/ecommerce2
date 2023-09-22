@@ -1,34 +1,43 @@
 import { RequestHandler } from 'express';
-import { AppDataSource } from '../config/connectDB';
+
 import { Cart } from '../Models/Cart';
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
-import { PurchasedOrder } from '../Models/PurchasedOrder';
+import { PurchaseOrder } from '../Models/PurchasedOrder';
 import { PurchasedItem } from '../Models/PurchasedItem';
 import { AddtoCartParams, RemoveFromCartParams } from '../types';
+import { sequelize } from '../config/connectDB';
+import { QueryTypes, where } from 'sequelize';
 dotenv.config();
 
 const stripe = new Stripe(process.env.stripe_key!, {
   apiVersion: '2023-08-16',
 });
 
-const cartRepo = AppDataSource.getRepository(Cart);
-const poRepo = AppDataSource.getRepository(PurchasedOrder);
-const piRepo = AppDataSource.getRepository(PurchasedItem);
-
+type CartModel = {
+  product_id: number;
+  count: number;
+  title: string;
+  desc: string;
+  price: number;
+  image: string;
+};
 export const getCartHelper = async (userId: number) => {
-  const res = await cartRepo.query(
+  const res = await sequelize.query<CartModel>(
     `
         SELECT c1.product_id, c1.count,p.title,p.desc,p.price,p.image
-        FROM product as p 
+        FROM product as p
         INNER JOIN
-          (SELECT c.product_id,COUNT(c.product_id) as count
-          FROM cart as c
-          WHERE c.user_id = $1
-          GROUP BY c.product_id) as c1
+            (SELECT c.product_id,COUNT(c.product_id) as count
+            FROM cart as c
+            WHERE c.user_id = $1
+            GROUP BY c.product_id) as c1
         ON p.id = c1.product_id
-          `,
-    [userId]
+            `,
+    {
+      bind: [userId],
+      type: QueryTypes.SELECT,
+    }
   );
   return res;
 };
@@ -42,10 +51,8 @@ export const addToCart: RequestHandler<
   try {
     const productId = req.params.productId;
     const userId = req.user!.id;
-    const cart = new Cart();
-    cart.product_id = productId;
-    cart.user_id = userId;
-    await cartRepo.save(cart);
+    console.log('-------' + userId);
+    await Cart.create({ product_id: productId, user_id: userId });
     return res.status(201).json(productId);
   } catch (error) {
     next(error);
@@ -72,24 +79,20 @@ export const removeFromCart: RequestHandler<
     const userId = req.user!.id;
     const productId = req.params.cartId;
 
-    const cartIdToDelete = await cartRepo
-      .createQueryBuilder()
-      .select('cart_id')
-      .where('product_id = :id1', { id1: productId })
-      .andWhere('user_id = :id2', { id2: userId })
-      .limit(1)
-      .execute();
+    const cart = await Cart.destroy({
+      where: {
+        product_id: productId,
+        user_id: userId,
+      },
+      limit: 1,
+    });
+    console.log(cart);
 
-    await cartRepo
-      .createQueryBuilder()
-      .delete()
-      .from(Cart)
-      .where('cart_id IN (:...id)', {
-        id: [cartIdToDelete[0].cart_id],
-      })
-      .execute();
-
-    const userCart = await getCartHelper(userId);
+    const userCart = await Cart.findAll({
+      where: {
+        user_id: userId,
+      },
+    });
     return res.status(200).json(userCart);
   } catch (error) {
     next(error);

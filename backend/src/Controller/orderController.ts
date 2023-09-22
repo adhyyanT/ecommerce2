@@ -1,7 +1,5 @@
 import { RequestHandler } from 'express';
-import { AppDataSource } from '../config/connectDB';
 import { Cart } from '../Models/Cart';
-import { PurchasedOrder } from '../Models/PurchasedOrder';
 import { PurchasedItem } from '../Models/PurchasedItem';
 import { getCartHelper } from './cartController';
 import Stripe from 'stripe';
@@ -14,14 +12,13 @@ import {
 import { Queue } from 'bullmq';
 import { User } from '../Models/User';
 import IORedis from 'ioredis';
+import { PurchaseOrder } from '../Models/PurchasedOrder';
+import { sequelize } from '../config/connectDB';
+import { QueryTypes } from 'sequelize';
 
 const stripe = new Stripe(process.env.stripe_key!, {
   apiVersion: '2023-08-16',
 });
-const cartRepo = AppDataSource.getRepository(Cart);
-const poRepo = AppDataSource.getRepository(PurchasedOrder);
-const piRepo = AppDataSource.getRepository(PurchasedItem);
-const userRepo = AppDataSource.getRepository(User);
 
 export const createPurchaseOrder: RequestHandler<
   unknown,
@@ -32,6 +29,7 @@ export const createPurchaseOrder: RequestHandler<
   try {
     const userId = req.user!.id;
     const userCart = await getCartHelper(userId);
+    console.log(userCart);
     const session = await stripe.checkout.sessions.retrieve(
       req.query.session_id!
     );
@@ -39,7 +37,7 @@ export const createPurchaseOrder: RequestHandler<
       return res.sendStatus(400);
 
     // send email to client
-    const user = await userRepo.findOne({
+    const user = await User.findOne({
       where: {
         id: userId,
       },
@@ -49,11 +47,7 @@ export const createPurchaseOrder: RequestHandler<
     let total = 0;
 
     //create purchase order
-    const po = new PurchasedOrder();
-    po.user_id = userId;
-    let t = await poRepo.save(po);
-
-    // add purchase products
+    const po = await PurchaseOrder.create({ user_id: userId });
     userCart.map(async (product: any) => {
       total += product.price * product.count;
       emailProducts.push({
@@ -61,17 +55,17 @@ export const createPurchaseOrder: RequestHandler<
         count: product.count,
         price: product.price,
       });
-      const pi = new PurchasedItem();
-      pi.purchase_order_id = t.order_id;
-      pi.item_id = product.product_id;
-      pi.count = product.count;
-      await piRepo.save(pi);
+      await PurchasedItem.create({
+        count: product.count,
+        item_id: product.product_id,
+        purchase_order_id: po.order_id,
+      });
     });
-    await cartRepo
-      .createQueryBuilder()
-      .delete()
-      .where('user_id = :id', { id: userId })
-      .execute();
+    await Cart.destroy({
+      where: {
+        user_id: userId,
+      },
+    });
 
     const emailData = {
       emailId: user!.email,
@@ -94,7 +88,7 @@ export const createPurchaseOrder: RequestHandler<
 export const pastOrders: RequestHandler = async (req, res, next) => {
   try {
     const userId = req.user!.id;
-    const allOrders = await poRepo.find({
+    const allOrders = await PurchaseOrder.findAll({
       where: {
         user_id: userId,
       },
@@ -113,18 +107,21 @@ export const pastOrderDetails: RequestHandler<
   try {
     const order = req.params.orderId;
     const userId = req.user!.id;
-    const items = await poRepo.query(
+    const items = await sequelize.query(
       `
-          SELECT pi.item_id,pi.count,p.price,p.image,p.title
-          from purchased_order as po 
-          INNER JOIN purchased_item as pi 
-          ON po.order_id = pi.purchase_order_id
-          INNER JOIN product as p
-          ON p.id = pi.item_id
-          Where po.user_id = $1
-          AND pi.purchase_order_id = $2
+        SELECT pi.item_id,pi.count,p.price,p.image,p.title
+        from purchase_order as po
+        INNER JOIN purchase_item as pi
+        ON po.order_id = pi.purchase_order_id
+        INNER JOIN product as p
+        ON p.id = pi.item_id
+        Where po.user_id = $1
+        AND pi.purchase_order_id = $2
       `,
-      [userId, order]
+      {
+        bind: [userId, order],
+        type: QueryTypes.SELECT,
+      }
     );
     return res.status(200).json(items);
   } catch (error) {

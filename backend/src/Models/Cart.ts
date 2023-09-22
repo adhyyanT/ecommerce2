@@ -1,34 +1,56 @@
+import { sequelize } from '../config/connectDB';
 import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-  OneToMany,
-  ManyToMany,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+  CreationOptional,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from 'sequelize';
 import { User } from './User';
 import { Product } from './Product';
-import 'reflect-metadata';
-@Entity()
-export class Cart extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  cart_id!: number;
 
-  @Column()
-  user_id!: number;
-
-  @Column()
-  product_id!: number;
-
-  @ManyToOne((type) => User, (user) => user.orders, { eager: true })
-  @JoinColumn({ name: 'user_id' })
-  user!: User;
-
-  @ManyToOne((type) => Product, (product) => product.orders, { eager: true })
-  @JoinColumn({ name: 'product_id' })
-  product!: Product;
+interface CartModel
+  extends Model<
+    InferAttributes<CartModel>,
+    InferCreationAttributes<CartModel>
+  > {
+  cart_id: CreationOptional<number>;
+  user_id: number;
+  product_id: number;
 }
+const Cart = sequelize.define<CartModel>(
+  'cart',
+  {
+    cart_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'user',
+        key: 'id',
+      },
+    },
+    product_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'product',
+        key: 'id',
+      },
+    },
+  },
+  { freezeTableName: true }
+);
+
+Cart.sync({ alter: true }).then(() => {
+  Cart.belongsTo(User, {
+    foreignKey: 'user_id',
+  });
+  Cart.belongsTo(Product, {
+    foreignKey: 'product_id',
+  });
+});
+
+export { Cart };

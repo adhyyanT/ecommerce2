@@ -17,18 +17,18 @@ const ProductCard = ({ product }: ProductProps) => {
       <CardHeader className='flex-col items-center h-25' id='ea'>
         <CardTitle className=' rounded-md'>
           <img
-            src={product.p_image}
-            alt={product.p_title}
+            src={product.image}
+            alt={product.title}
             className='object-contain  w-50 h-60  '
           />
         </CardTitle>
         {/* <CardDescription className='pt-2'>Hey</CardDescription> */}
       </CardHeader>
       <CardContent className='flex flex-col text-center overflow-hidden h-20 font-semibold'>
-        {product.p_title}
+        {product.title}
       </CardContent>
       <CardDescription className='flex text-center h-10 flex-col items-center '>
-        ${product.p_price}
+        ${product.price}
       </CardDescription>
     </Card>
   );
