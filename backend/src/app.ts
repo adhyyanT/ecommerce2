@@ -26,12 +26,12 @@ app.use(
 );
 app.use(morgan('combined'));
 
-app.use('/user', userRoutes);
+app.use('/api/user', userRoutes);
 app.use(passport.authenticate('jwt', { session: false }));
-app.use('/profile', profileRoutes);
-app.use('/cart', cartRoutes);
-app.use('/order', orderRoute);
-app.use('/products', productRoute);
+app.use('/api/profile', profileRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/order', orderRoute);
+app.use('/api/products', productRoute);
 
 app.use((req, res, next) => {
   next(createHttpError(404, 'Page not found'));

@@ -9,7 +9,7 @@ export const getProducts = async (
 ) => {
   try {
     if (!search) search = '';
-    let url = `${backend}/products/all_products?page=${page}&size=${size}&search=${search}`;
+    let url = `${backend}/api/products/all_products?page=${page}&size=${size}&search=${search}`;
     if (filters.length !== 0) {
       url += '&filters=';
       filters.map((f) => {
@@ -44,7 +44,7 @@ export const getProduct = async (id: number) => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${backend}/products/product/${id}`,
+      url: `${backend}/api/products/product/${id}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -69,7 +69,7 @@ export const search = async (s: string) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `${backend}/products/search`,
+      url: `${backend}/api/products/search`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export const getProductDetails = async (id: number) => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${backend}/products/product/${id}`,
+      url: `${backend}/api/products/product/${id}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },

@@ -11,7 +11,7 @@ export const login = async (email: string, password: string) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `${backend}/user/login`,
+      url: `${backend}/api/user/login`,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -37,7 +37,7 @@ export const register = async (
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `${backend}/user/register`,
+      url: `${backend}/api/user/register`,
       headers: {
         'Content-Type': 'application/json',
       },

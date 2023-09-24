@@ -6,7 +6,7 @@ export const putItemInCart = async (id: number) => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${backend}/cart/add/` + id,
+      url: `${backend}/api/cart/add/` + id,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -25,7 +25,7 @@ export const getCart = async () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${backend}/cart/getcart`,
+      url: `${backend}/api/cart/getcart`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -48,7 +48,7 @@ export const removeFromCart = async (id: number) => {
     let config = {
       method: 'delete',
       maxBodyLength: Infinity,
-      url: `${backend}/cart/remove/${id}`,
+      url: `${backend}/api/cart/remove/${id}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -72,7 +72,7 @@ export const checkout = async () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${backend}/cart/checkout`,
+      url: `${backend}/api/cart/checkout`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },

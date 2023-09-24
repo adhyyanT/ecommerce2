@@ -6,7 +6,7 @@ export const validatePayment = async (sessionId: string) => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${backend}/order/purchase_order?session_id=${sessionId}`,
+      url: `${backend}/api/order/purchase_order?session_id=${sessionId}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -30,7 +30,7 @@ export const allOrders = async () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${backend}/order/all_orders/`,
+      url: `${backend}/api/order/all_orders/`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -53,7 +53,7 @@ export const getOrderDetails = async (orderId: number) => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${backend}/order/past_order/${orderId}`,
+      url: `${backend}/api/order/past_order/${orderId}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
