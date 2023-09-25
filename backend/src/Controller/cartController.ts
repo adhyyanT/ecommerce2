@@ -16,7 +16,7 @@ const stripe = new Stripe(process.env.stripe_key!, {
 
 type CartModel = {
   product_id: number;
-  count: number;
+  count: string;
   title: string;
   desc: string;
   price: number;
@@ -112,7 +112,7 @@ export const checkOut: RequestHandler = async (req, res, next) => {
           },
           unit_amount: userCart[i].price * 100 * 82,
         },
-        quantity: userCart[i].count,
+        quantity: parseInt(userCart[i].count),
       };
       line_items.push(obj);
     }

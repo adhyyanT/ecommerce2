@@ -44,7 +44,7 @@ const Cart = sequelize.define<CartModel>(
   { freezeTableName: true }
 );
 
-Cart.sync({ alter: true }).then(() => {
+Cart.sync().then(() => {
   Cart.belongsTo(User, {
     foreignKey: 'user_id',
   });

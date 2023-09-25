@@ -52,7 +52,7 @@ const User = sequelize.define<UserModel>(
   { freezeTableName: true }
 );
 
-User.sync({ alter: true }).then(() => {
+User.sync().then(() => {
   User.hasMany(Cart, {
     foreignKey: 'user_id',
   });
