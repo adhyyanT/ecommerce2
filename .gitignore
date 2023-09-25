@@ -1,5 +1,6 @@
 backend/node_modules
 backend/.env
+backend/skip.txt
 backend/dist
 email_worker/.env
 backend/src/product_rows.csv

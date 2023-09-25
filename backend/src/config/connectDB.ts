@@ -2,7 +2,6 @@ import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 dotenv.config();
 // HOST=db.vfviigapinvcwsgzlnyd.supabase.co
-
 export const sequelize = new Sequelize(
   process.env.DATABASE!,
   process.env.USER!,
@@ -13,6 +12,12 @@ export const sequelize = new Sequelize(
     port: parseInt(process.env.DB_PORT!),
     // logging: true,
     logging: console.log,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   }
 );
 
