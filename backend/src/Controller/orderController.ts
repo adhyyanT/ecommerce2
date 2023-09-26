@@ -15,6 +15,7 @@ import IORedis from 'ioredis';
 import { PurchaseOrder } from '../Models/PurchasedOrder';
 import { sequelize } from '../config/connectDB';
 import { QueryTypes } from 'sequelize';
+import { SendMessageCommand, SQSClient } from '@aws-sdk/client-sqs';
 
 const stripe = new Stripe(process.env.stripe_key!, {
   apiVersion: '2023-08-16',
@@ -73,13 +74,40 @@ export const createPurchaseOrder: RequestHandler<
       emailProducts,
       name: user!.name,
     };
-    const redis = new IORedis(process.env.redis_url!);
-    const emailQueue = new Queue('email_queue', {
-      connection: redis,
+    res.sendStatus(200);
+    const client = new SQSClient({
+      region: process.env.aws_region,
+      credentials: {
+        accessKeyId: process.env.access_key_id!,
+        secretAccessKey: process.env.secret_access_key!,
+      },
     });
 
-    res.sendStatus(200);
-    await emailQueue.add(`email to ${emailData.name}`, emailData);
+    const queue = process.env.sqs_url!;
+    const command = new SendMessageCommand({
+      QueueUrl: queue,
+      MessageAttributes: {
+        email: {
+          DataType: 'String',
+          StringValue: emailData.emailId,
+        },
+        total: {
+          DataType: 'Number',
+          StringValue: emailData.total + '',
+        },
+        name: {
+          DataType: 'String',
+          StringValue: emailData.name,
+        },
+        products: {
+          DataType: 'String',
+          StringValue: JSON.stringify(emailData.emailProducts),
+        },
+      },
+      MessageBody: 'check attributes',
+    });
+
+    const cmd = await client.send(command);
   } catch (error) {
     next(error);
   }
