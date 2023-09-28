@@ -1,7 +1,9 @@
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
+import { createClient } from 'redis';
+
 dotenv.config();
-// HOST=db.vfviigapinvcwsgzlnyd.supabase.co
+
 export const sequelize = new Sequelize(
   process.env.DATABASE!,
   process.env.USER!,
@@ -10,7 +12,6 @@ export const sequelize = new Sequelize(
     host: process.env.HOST!,
     dialect: 'postgres',
     port: parseInt(process.env.DB_PORT!),
-    // logging: true,
     logging: console.log,
     dialectOptions: {
       ssl: {
@@ -21,11 +22,22 @@ export const sequelize = new Sequelize(
   }
 );
 
+export const client = createClient({
+  url: process.env.redis_uri,
+});
+
 sequelize
   .authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');
   })
+  .then(() => {
+    client.connect().then(() => console.log('connected to Cache'));
+  })
   .catch((error) => {
     console.error('Unable to connect to the database:', error);
   });
+
+client.on('error', (e) => {
+  console.log(e);
+});

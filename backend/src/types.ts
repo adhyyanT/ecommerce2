@@ -47,3 +47,19 @@ export type emailType = {
   total: number;
 };
 export type EmailProductType = { title: string; price: number; count: number };
+
+interface ProductRowsType {
+  id: number;
+  title: string;
+  desc: string;
+  category: string;
+  image: string;
+  price: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ProductsType {
+  rows: ProductRowsType[];
+  count: number;
+}
